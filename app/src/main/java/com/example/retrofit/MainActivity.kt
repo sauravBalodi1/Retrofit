@@ -17,6 +17,7 @@ import javax.security.auth.callback.Callback
 
 class MainActivity : AppCompatActivity() {
     //   private lateinit var binding:ActivityMainBinding
+    private lateinit var adapter: NewsAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -26,12 +27,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getNews() {
-        val news = NewsService.newsInstance.getHeadlines("in", 1)
+        val news = NewsService.newsInstance.getHeadlines("in", 2)
         news.enqueue(object : retrofit2.Callback<News> {
             override fun onResponse(call: Call<News>, response: Response<News>) {
                 val news = response.body()
                 if (news != null) {
-                    Log.d("E E",news.toString())
+                    Log.d("ssE: ",news.toString())
+                    adapter= NewsAdapter(this@MainActivity,news.articles)
+                    //now setting adapter
+                    val recViewKiId=findViewById<RecyclerView>(R.id.Recycleview)
+                    recViewKiId.adapter=adapter
+                    recViewKiId.layoutManager=LinearLayoutManager(this@MainActivity)
                 }
             }
 
