@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getNews() {
-        val news = NewsService.newsInstance.getHeadlines("in", 2)
+        val news = NewsService.newsInstance.getHeadlines("us", 2)
         news.enqueue(object : retrofit2.Callback<News> {
             override fun onResponse(call: Call<News>, response: Response<News>) {
                 val news = response.body()

@@ -17,6 +17,7 @@ class NewsAdapter(val context: Context,val articles:List<Article>): Adapter<News
         var newsImage=itemView.findViewById<ImageView>(R.id.newsImage)
         var newsTitle=itemView.findViewById<TextView>(R.id.newsTitle)
         var newsDescription=itemView.findViewById<TextView>(R.id.newsDescription)
+        var authorDescription=itemView.findViewById<TextView>(R.id.authorId)
 
     }
 
@@ -29,6 +30,7 @@ class NewsAdapter(val context: Context,val articles:List<Article>): Adapter<News
         val article=articles[position]
         holder.newsTitle.text=article.title
         holder.newsDescription.text=article.description
+        holder.authorDescription.text=article.author
         //we can bind image like this ,so here is the way learn it
      Glide.with(context).load(article.urlToImage).into(holder.newsImage)
         //setting button property
