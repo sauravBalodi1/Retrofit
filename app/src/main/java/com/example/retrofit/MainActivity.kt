@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.view.menu.MenuView
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -24,23 +25,23 @@ import kotlin.coroutines.CoroutineContext
 
 //import com.example.retrofit.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), CoroutineScope {
+class MainActivity : AppCompatActivity(){
     //   private lateinit var binding:ActivityMainBinding
     private lateinit var adapter: NewsAdapter
-    private lateinit var job: Job
+//    private lateinit var job: Job
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        job = Job()
+//        job = Job()
 //          GlobalScope.launch(Dispatchers.Main) {
 //              getNews()
 //          }
         //we are making request in main thread that we shoul.d not do in global scope
 
         // now we are creating own coroutine scope
-        launch {
+        lifecycleScope.launch {
             var new = getNews()
             if (new != null) {
                 adapter = NewsAdapter(context = this@MainActivity, new?.articles)
@@ -55,10 +56,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         //
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        job.cancel()
-    }
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        job.cancel()
+//    }
 
     private suspend fun getNews(): News? {
         val response = NewsService.newsInstance.getHeadlines("in", 2)
@@ -96,8 +97,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 //        })
     }
 
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Main
+//    override val coroutineContext: CoroutineContext
+//        get() = job + Dispatchers.Main
 //Dispatchers.IO-> network requests or disk read write
 //Dispatchers.Main-> Main safety
 //Dispatchers.Default-> CPU Intensive Task
